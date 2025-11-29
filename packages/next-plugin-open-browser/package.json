@@ -1,6 +1,6 @@
 {
 	"name": "next-plugin-open-browser",
-	"description": "Show QR code on Next.js dev server start",
+	"description": "Automatically open browser when Next.js dev server starts",
 	"version": "0.1.1",
 	"license": "MIT",
 	"author": "simoncdn",
@@ -8,14 +8,18 @@
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"files": [
-		"dist"
+		"dist",
+		"README.md",
+		"LICENSE",
+		"CHANGELOG.md"
 	],
 	"scripts": {
 		"build": "tsc",
 		"dev": "tsc --watch",
 		"test": "vitest",
 		"test:ui": "vitest --ui",
-		"test:run": "vitest run"
+		"test:run": "vitest run",
+		"prepublishOnly": "pnpm test:run && pnpm build"
 	},
 	"repository": {
 		"type": "git",
@@ -39,13 +43,15 @@
 	"keywords": [
 		"next",
 		"nextjs",
-		"qrcode",
 		"plugin",
-		"open browser",
-		"server start",
 		"webpack",
-		"mobile",
-		"dev"
+		"browser",
+		"open",
+		"auto-open",
+		"development",
+		"dev-server",
+		"chrome",
+		"firefox"
 	],
 	"dependencies": {
 		"open": "^11.0.0"
