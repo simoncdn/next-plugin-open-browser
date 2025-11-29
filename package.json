@@ -1,0 +1,10 @@
+{
+	"name": "next-plugin-open-browser-monorepo",
+	"private": true,
+	"license": "MIT",
+	"scripts": {
+		"build": "pnpm --filter next-plugin-open-browser build",
+		"dev": "pnpm --filter next-plugin-open-browser dev",
+		"playground": "pnpm --filter playground dev"
+	}
+}

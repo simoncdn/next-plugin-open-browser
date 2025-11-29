@@ -1,0 +1,53 @@
+{
+	"name": "next-plugin-open-browser",
+	"description": "Show QR code on Next.js dev server start",
+	"version": "0.1.1",
+	"license": "MIT",
+	"author": "simoncdn",
+	"type": "module",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "tsc",
+		"dev": "tsc --watch",
+		"test": "vitest",
+		"test:ui": "vitest --ui",
+		"test:run": "vitest run"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/simoncdn/next-plugin-open-browser.git",
+		"directory": "packages/next-plugin-open-browser"
+	},
+	"peerDependencies": {
+		"next": ">=13.0.0"
+	},
+	"devDependencies": {
+		"@types/node": "^20.0.0",
+		"@vitest/ui": "^4.0.14",
+		"typescript": "^5.0.0",
+		"vitest": "^4.0.14",
+		"webpack": "^5.0.0"
+	},
+	"homepage": "https://github.com/simoncdn/next-plugin-open-browser#readme",
+	"bugs": {
+		"url": "https://github.com/simoncdn/next-plugin-open-browser/issues"
+	},
+	"keywords": [
+		"next",
+		"nextjs",
+		"qrcode",
+		"plugin",
+		"open browser",
+		"server start",
+		"webpack",
+		"mobile",
+		"dev"
+	],
+	"dependencies": {
+		"open": "^11.0.0"
+	}
+}
