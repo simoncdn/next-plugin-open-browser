@@ -1,20 +1,41 @@
 import type { Compiler } from 'webpack';
 import { red } from './utils/colors.js';
-import { Browser, OpenBrowserPluginOptions } from './type.js';
-import open, { App, apps, openApp, Options } from 'open';
+import { OpenBrowserPluginOptions } from './type.js';
+import open from 'open';
 import os from 'os';
 
 const DEFAULT_PORT = 3000;
 
+/**
+ * Next.js webpack plugin that automatically opens a browser when the dev server starts
+ *
+ * @example
+ * ```ts
+ * // next.config.js
+ * import { OpenBrowserPlugin } from 'next-plugin-open-browser';
+ *
+ * export default {
+ *   webpack: (config, { dev, isServer }) => {
+ *     if (dev && !isServer) {
+ *       config.plugins.push(new OpenBrowserPlugin({
+ *         browser: 'chrome',
+ *         path: '/dashboard'
+ *       }));
+ *     }
+ *     return config;
+ *   }
+ * };
+ * ```
+ */
 export class OpenBrowserPlugin {
 	private hasOpened: boolean = false;
 	private port: number;
 	private path: string;
 	private background?: boolean;
 	private browser?: string;
-	private private?: boolean;
 
 	/**
+	 * Creates an instance of OpenBrowserPlugin
 	 * @param options - Plugin configuration options
 	 */
 	constructor(options: OpenBrowserPluginOptions = {}) {
@@ -22,9 +43,13 @@ export class OpenBrowserPlugin {
 		this.path = options.path ?? '/';
 		this.background = options.background ?? false;
 		this.browser = options.browser;
-		this.private = options.private;
 	}
 
+	/**
+	 * Normalizes browser name based on the current operating system
+	 * @returns The normalized browser name or undefined
+	 * @private
+	 */
 	getBrowser() {
 		if (this.browser === 'chrome') {
 			const currentOS = os.platform();
@@ -42,20 +67,11 @@ export class OpenBrowserPlugin {
 		return this.browser;
 	}
 
-	getPrivateMode() {
-		switch (this.browser) {
-			case 'chrome':
-			case 'brave':
-				return '--incognito';
-			case 'firefox':
-				return '--private-window'
-			case 'edge':
-				return '--inPrivate'
-			default:
-				return '--incognito';
-		}
-	}
-
+	/**
+	 * Applies the plugin to the webpack compiler
+	 * Hooks into the afterEmit phase to open the browser once compilation is complete
+	 * @param compiler - The webpack compiler instance
+	 */
 	apply(compiler: Compiler): void {
 		compiler.hooks.afterEmit.tapPromise('OpenBrowserPlugin', async () => {
 
@@ -72,14 +88,10 @@ export class OpenBrowserPlugin {
 					...(browser && {
 						app: {
 							name: browser,
-							...(this.private && {
-								arguments: [this.getPrivateMode()]
-							})
 						}
 					}),
 					background: this.background
 				});
-				// await open('https://sindresorhus.com', { app: { name: apps.browserPrivate } });
 				this.hasOpened = true;
 			} catch (error) {
 				console.error(red('Failed to open browser:'), error);
